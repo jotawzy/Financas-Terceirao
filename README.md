@@ -61,18 +61,6 @@ Permite:
 
 ---
 
-## 🎨 Design
-
-O projeto possui uma identidade visual inspirada na cultura nordestina:
-
-- Tema escuro
-- Tons bordô e vermelho profundo
-- Detalhes claros
-- Interface moderna
-- Referências visuais da xilogravura e do cordel
-
----
-
 ## 🛠️ Tecnologias utilizadas
 
 - HTML5
