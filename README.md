@@ -82,3 +82,15 @@ O Firebase é utilizado apenas como banco de dados em tempo real.
 ---
 
 ## 📂 Estrutura do projeto
+/ ├── index.html ├── style.css ├── firebase.js ├── database.js ├── ui.js ├── pendencias.js └── app.js
+
+
+---
+
+## 🚀 Objetivo
+
+Criar uma ferramenta simples para que a comissão do terceiro ano consiga organizar as finanças da turma de maneira transparente, rápida e acessível para todos.
+
+---
+
+Desenvolvido para o Terceirão © 2026.
