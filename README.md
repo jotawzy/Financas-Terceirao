@@ -82,9 +82,18 @@ O Firebase é utilizado apenas como banco de dados em tempo real.
 ---
 
 ## 📂 Estrutura do projeto
-/ ├── index.html ├── style.css ├── firebase.js ├── database.js ├── ui.js ├── pendencias.js └── app.js
 
-
+```text
+Financeiro-Terceirao/
+│
+├── index.html
+├── style.css
+│
+├── firebase.js
+├── database.js
+├── ui.js
+├── pendencias.js
+└── app.js 
 ---
 
 ## 🚀 Objetivo
