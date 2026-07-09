@@ -98,6 +98,7 @@ Financeiro-Terceirao/
 ├── database.js
 ├── ui.js
 ├── pendencias.js
-└── app.js 
+└── app.js
+```
 
 Desenvolvido para o Terceirão © 2026.
