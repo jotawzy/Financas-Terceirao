@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Financeiro • Terceirão</title>
+
+    <!-- Fonte principal -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Fonte estilo Cordel (trocaremos pela Xilosa depois) -->
+    <link href="https://fonts.cdnfonts.com/css/cordelina" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+    <div class="background"></div>
+
+    <header class="header">
+
+        <div>
+
+            <h1>Financeiro</h1>
+
+            <p>Terceirão</p>
+
+        </div>
+
+    </header>
+
+    <nav class="navbar">
+
+        <button class="nav-btn active" data-page="caixa">
+
+            <i class="fa-solid fa-wallet"></i>
+
+            <span>Caixa Geral</span>
+
+        </button>
+
+        <button class="nav-btn" data-page="porquinhos">
+
+            <i class="fa-solid fa-piggy-bank"></i>
+
+            <span>Porquinhos</span>
+
+        </button>
+
+    </nav>
+
+    <main>
+
+        <!-- ============================= -->
+        <!-- CAIXA GERAL -->
+        <!-- ============================= -->
+
+        <section id="caixa" class="page active">
+
+            <div class="card">
+
+                <h2>Caixa Geral</h2>
+
+                <div class="saldo-grid">
+
+                    <div class="saldo-item">
+
+                        <span>PIX</span>
+
+                        <strong id="total-pix">
+
+                            R$ 0,00
+
+                        </strong>
+
+                    </div>
+
+                    <div class="saldo-item">
+
+                        <span>Dinheiro Físico</span>
+
+                        <strong id="total-fisico">
+
+                            R$ 0,00
+
+                        </strong>
+
+                    </div>
+
+                    <div class="saldo-item total">
+
+                        <span>Total</span>
+
+                        <strong id="total-geral">
+
+                            R$ 0,00
+
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="card">
+
+                <div class="section-title">
+
+                    <h2>Pendências</h2>
+
+                    <button id="nova-pendencia">
+
+                        <i class="fa-solid fa-plus"></i>
+
+                    </button>
+
+                </div>
+
+                <div id="lista-pendencias">
+
+                    <!-- JS -->
+
+                </div>
+                
+                <div id="form-pendencia" class="card escondido">
+
+    <h3 id="titulo-form-pendencia">
+        Nova Pendência
+    </h3>
+
+    <div class="campo">
+
+        <label>Título</label>
+
+        <input 
+            type="text" 
+            id="pendencia-titulo"
+            placeholder="Ex: Pagar gráfica">
+
+    </div>
+
+
+    <div class="campo">
+
+        <label>Descrição</label>
+
+        <textarea
+            id="pendencia-descricao"
+            placeholder="Detalhes da pendência"></textarea>
+
+    </div>
+
+
+    <div class="campo">
+
+        <label>Valor</label>
+
+        <input 
+            type="number"
+            id="pendencia-valor"
+            min="0"
+            value="0">
+
+    </div>
+
+
+    <div class="acoes">
+
+        <button id="salvar-pendencia">
+
+            <i class="fa-solid fa-floppy-disk"></i>
+
+            Salvar
+
+        </button>
+
+
+        <button id="excluir-pendencia">
+
+            <i class="fa-solid fa-trash"></i>
+
+            Excluir
+
+        </button>
+
+    </div>
+
+</div>
+
+            </div>
+
+        </section>
+
+        <!-- ============================= -->
+        <!-- PORQUINHOS -->
+        <!-- ============================= -->
+
+        <section id="porquinhos" class="page">
+
+            <div class="section-title">
+
+                <h2>Porquinhos</h2>
+
+                <button id="novo-porquinho">
+
+                    <i class="fa-solid fa-plus"></i>
+
+                    Novo
+
+                </button>
+
+            </div>
+
+            <div id="lista-porquinhos">
+
+                <!-- Cards criados pelo JS -->
+
+            </div>
+
+        </section>
+
+        <!-- ============================= -->
+        <!-- DETALHES -->
+        <!-- ============================= -->
+
+        <section id="detalhes" class="page">
+
+            <button id="voltar">
+
+                <i class="fa-solid fa-arrow-left"></i>
+
+                Voltar
+
+            </button>
+
+            <div class="card">
+
+                <h2 id="titulo-detalhes">
+
+                    Novo Porquinho
+
+                </h2>
+
+                <div class="campo">
+
+                    <label>Nome</label>
+
+                    <input
+                        type="text"
+                        id="nome"
+                        placeholder="Nome do porquinho">
+
+                </div>
+
+                <div class="campo">
+
+                    <label>Descrição</label>
+
+                    <textarea
+                        id="descricao"
+                        placeholder="Descrição"></textarea>
+
+                </div>
+
+                <div class="campo">
+
+                    <label>PIX</label>
+
+                    <input
+                        type="number"
+                        id="pix"
+                        min="0"
+                        value="0">
+
+                </div>
+
+                <div class="campo">
+
+                    <label>Dinheiro Físico</label>
+
+                    <input
+                        type="number"
+                        id="fisico"
+                        min="0"
+                        value="0">
+
+                </div>
+
+                <div class="campo">
+
+                    <label>Observações</label>
+
+                    <textarea
+                        id="observacoes"
+                        placeholder="Observações"></textarea>
+
+                </div>
+
+                <div class="status-salvamento">
+
+                    <span id="status">
+
+                        Alterações não salvas
+
+                    </span>
+
+                </div>
+
+                <div class="acoes">
+
+                    <button id="salvar">
+
+                        <i class="fa-solid fa-floppy-disk"></i>
+
+                        Salvar
+
+                    </button>
+
+                    <button id="excluir">
+
+                        <i class="fa-solid fa-trash"></i>
+
+                        Excluir
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <script type="module" src="app.js"></script>
+
+</body>
+
+</html>

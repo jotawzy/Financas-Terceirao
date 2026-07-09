@@ -1,0 +1,486 @@
+/* =========================
+   IMPORTAÇÕES
+========================= */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* =========================
+   CORES
+========================= */
+
+:root{
+    --bg:#111111;
+    --bg2:#181818;
+    --card:rgba(255,255,255,.06);
+    --primary:#6D0019;
+    --primary-dark:#8E102B;
+    --white:#FFFFFF;
+    --gray:#B8B8B8;
+    --border:rgba(255,255,255,.10);
+    --radius:22px;
+}
+
+/* =========================
+   RESET
+========================= */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:"Inter",sans-serif;
+    background:linear-gradient(180deg,#111111,#171717);
+    color:var(--white);
+    min-height:100vh;
+}
+
+/* =========================
+   SCROLL
+========================= */
+
+::-webkit-scrollbar{
+    width:7px;
+}
+
+::-webkit-scrollbar-thumb{
+    background:var(--primary);
+    border-radius:20px;
+}
+
+/* =========================
+   FUNDO
+========================= */
+
+.background{
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    background:
+        radial-gradient(circle at top right,
+        rgba(109,0,25,.22),
+        transparent 45%),
+        radial-gradient(circle at bottom left,
+        rgba(142,16,43,.18),
+        transparent 40%);
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.header{
+    padding:35px 25px 15px;
+}
+
+.header h1{
+    font-size:34px;
+    font-family:"Cordelina",serif;
+    color:white;
+}
+
+.header p{
+    margin-top:4px;
+    color:var(--gray);
+}
+
+/* =========================
+   MENU
+========================= */
+
+.navbar{
+    display:flex;
+    gap:12px;
+    padding:0 20px 20px;
+}
+
+.nav-btn{
+    flex:1;
+    border:none;
+    border-radius:18px;
+    background:var(--card);
+    color:white;
+    backdrop-filter:blur(18px);
+    border:1px solid var(--border);
+    padding:15px;
+    cursor:pointer;
+    transition:.25s;
+}
+
+.nav-btn i{
+    display:block;
+    font-size:22px;
+    margin-bottom:8px;
+}
+
+.nav-btn.active{
+    background:linear-gradient(135deg,
+    var(--primary),
+    var(--primary-dark));
+}
+
+/* =========================
+   MAIN
+========================= */
+
+main{
+    padding:0 20px 100px;
+}
+
+.page{
+    display:none;
+}
+
+.page.active{
+    display:block;
+}
+
+/* =========================
+   CARDS
+========================= */
+
+.card{
+    background:var(--card);
+    border:1px solid var(--border);
+    backdrop-filter:blur(20px);
+    border-radius:var(--radius);
+    padding:22px;
+    margin-bottom:20px;
+    box-shadow:0 8px 35px rgba(0,0,0,.25);
+}
+
+/* =========================
+   TITULOS
+========================= */
+
+h2{
+    font-family:"Cordelina",serif;
+    font-size:25px;
+    margin-bottom:18px;
+}
+
+/* =========================
+   SALDOS
+========================= */
+
+.saldo-grid{
+    display:flex;
+    flex-direction:column;
+    gap:15px;
+}
+
+.saldo-item{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding-bottom:15px;
+    border-bottom:1px solid var(--border);
+}
+
+.saldo-item:last-child{
+    border:none;
+    padding-bottom:0;
+}
+
+.saldo-item span{
+    color:var(--gray);
+}
+
+.saldo-item strong{
+    font-size:21px;
+}
+
+.total strong{
+    color:#ffffff;
+    font-size:28px;
+}
+
+/* =========================
+   TITULO COM BOTÃO
+========================= */
+
+.section-title{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+
+}
+
+.section-title button{
+    background:linear-gradient(135deg,
+    var(--primary),
+    var(--primary-dark));
+    color:white;
+    border:none;
+    border-radius:15px;
+    padding:12px 18px;
+    cursor:pointer;
+}
+
+/* =========================
+   PORQUINHOS
+========================= */
+
+#lista-porquinhos{
+    display:flex;
+    flex-direction:column;
+    gap:18px;
+}
+
+.porquinho{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:22px;
+    backdrop-filter:blur(20px);
+    padding:20px;
+}
+
+.porquinho h3{
+    font-size:22px;
+    margin-bottom:10px;
+}
+
+.valor{
+    font-size:29px;
+    font-weight:700;
+    margin-bottom:10px;
+}
+
+.descricao{
+    color:var(--gray);
+    margin-bottom:18px;
+}
+
+.detalhes{
+    width:100%;
+    padding:13px;
+    border:none;
+    border-radius:15px;
+    background:var(--primary);
+    color:white;
+    cursor:pointer;
+}
+
+/* =========================
+   PENDÊNCIAS
+========================= */
+
+#lista-pendencias{
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+}
+
+.pendencia{
+    padding:15px;
+    border-radius:15px;
+    background:rgba(255,255,255,.04);
+    border:1px solid var(--border);
+}
+
+/* =========================
+   MODAL
+========================= */
+
+.modal{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.65);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+}
+
+.hidden{
+    display:none;
+}
+
+.modal-content{
+    width:100%;
+    max-width:500px;
+    background:#1B1B1B;
+    border-radius:25px;
+    padding:25px;
+    border:1px solid var(--border);
+}
+
+.modal-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:25px;
+}
+
+.modal-header button{
+    background:none;
+    border:none;
+    color:white;
+    font-size:24px;
+    cursor:pointer;
+}
+
+/* =========================
+   CAMPOS
+========================= */
+
+.campo{
+    display:flex;
+    flex-direction:column;
+    margin-bottom:18px;
+}
+
+.campo label{
+    margin-bottom:8px;
+    color:var(--gray);
+}
+
+.campo input,
+.campo textarea{
+    background:#262626;
+    color:white;
+    border:1px solid var(--border);
+    border-radius:15px;
+    padding:14px;
+    outline:none;
+    font-family:inherit;
+}
+
+.campo textarea{
+    resize:vertical;
+    min-height:120px;
+}
+
+.campo input:focus,
+.campo textarea:focus{
+    border-color:var(--primary-dark);
+}
+
+/* =========================
+   RODAPÉ MODAL
+========================= */
+
+.modal-footer{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-top:25px;
+}
+
+#status{
+    color:#ffbaba;
+    font-size:14px;
+}
+
+#salvar{
+    background:linear-gradient(
+    135deg,
+    var(--primary),
+    var(--primary-dark));
+    border:none;
+    color:white;
+    padding:13px 24px;
+    border-radius:15px;
+    cursor:pointer;
+    font-weight:600;
+}
+
+/* =========================
+   RESPONSIVO
+========================= */
+
+@media(max-width:600px){
+    .header h1{
+        font-size:30px;
+    }
+
+    .valor{
+        font-size:25px;
+    }
+}
+
+#voltar{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    background:#6D0019;
+    color:#fff;
+    border:none;
+    border-radius:14px;
+    padding:12px 18px;
+    cursor:pointer;
+    margin-bottom:20px;
+}
+
+#excluir{
+    background:#8E102B;
+    color:#fff;
+    border:none;
+    border-radius:14px;
+    padding:14px;
+    cursor:pointer;
+    flex:1;
+}
+
+/* Esconder formulários */
+.escondido{
+    display:none;
+}
+
+
+/* Card de pendência */
+.pendencia{
+    background:rgba(255,255,255,0.05);
+    border:1px solid rgba(255,255,255,0.12);
+    border-radius:18px;
+    padding:18px;
+    margin-top:12px;
+    cursor:pointer;
+    transition:.2s;
+}
+
+
+.pendencia:hover{
+    transform:translateY(-3px);
+    border-color:#8b1538;
+}
+
+.pendencia h3{
+    margin-bottom:8px;
+}
+
+.pendencia p{
+    color:#ccc;
+    margin-bottom:10px;
+}
+
+/* Botão salvar pendência */
+#salvar-pendencia{
+    background:#7a1232;
+    color:white;
+    border:none;
+    border-radius:14px;
+    padding:12px 20px;
+    cursor:pointer;
+}
+
+/* Botão excluir pendência */
+#excluir-pendencia{
+    background:#450015;
+    color:white;
+    border:none;
+    border-radius:14px;
+    padding:12px 20px;
+    cursor:pointer;
+}
+
+#salvar-pendencia:hover,
+#excluir-pendencia:hover{
+    opacity:.85;
+}
