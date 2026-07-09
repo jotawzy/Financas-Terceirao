@@ -2,11 +2,15 @@
 
 Sistema web para organização financeira do terceiro ano, criado para controlar o dinheiro arrecadado pela turma de forma simples, colaborativa e organizada.
 
+---
+
 ## 📌 Sobre o projeto
 
 O Financeiro • Terceirão permite que a turma acompanhe o dinheiro disponível, separando valores em diferentes categorias e mantendo um controle coletivo das finanças.
 
 O sistema foi pensado para facilitar a organização de eventos, vendas, rifas, barracas e outros projetos da turma.
+
+---
 
 ## ✨ Funcionalidades
 
