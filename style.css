@@ -395,49 +395,105 @@ h2{
 
 /* Esconder formulários */
 /* ==========================================================================
-   FIX DEFINITIVO E SEGURO PARA DESTINAÇÕES (SEM QUEBRAR OUTRAS TELAS)
+   RESTAURAÇÃO DAS ANOTAÇÕES + FIX DAS DESTINAÇÕES (FINAL DO ARQUIVO)
    ========================================================================== */
 
-/* 1. Botão Salvar das Destinações (Copia a cor e tamanho do seu padrão, sem quebrar o display) */
-#salvar-destinacao {
-    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-    border: none;
-    color: white;
-    padding: 13px 24px;
-    border-radius: 15px;
+/* --- 1. RESTAURAÇÃO DAS ANOTAÇÕES / PENDÊNCIAS --- */
+.pendencia {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 18px;
+    padding: 18px;
+    margin-top: 12px;
     cursor: pointer;
-    font-weight: 600;
-    font-size: 16px;
+    transition: .2s;
 }
 
-/* 2. Botão Excluir das Destinações (Copia a cor e tamanho do seu padrão) */
-#excluir-destinacao {
-    background: #8E102B;
-    color: #fff;
+.pendencia:hover {
+    transform: translateY(-3px);
+    border-color: #8b1538;
+}
+
+.pendencia h3 {
+    margin-bottom: 8px;
+}
+
+.pendencia p {
+    color: #ccc;
+    margin-bottom: 10px;
+}
+
+/* Botões de salvar e excluir das anotações */
+#salvar-pendencia {
+    background: #7a1232;
+    color: white;
     border: none;
     border-radius: 14px;
-    padding: 14px;
+    padding: 12px 20px;
     cursor: pointer;
-    font-weight: 600;
-    font-size: 16px;
-    flex: 1;
 }
 
-/* 3. Botão Novo das Destinações (Idêntico ao seu .section-title button original) */
-#nova-destinacao {
-    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+#excluir-pendencia {
+    background: #450015;
     color: white;
     border: none;
-    border-radius: 15px;
-    padding: 12px 18px;
+    border-radius: 14px;
+    padding: 12px 20px;
     cursor: pointer;
-    font-weight: 500;
-    font-size: 15px;
 }
 
-/* 4. Alinhamento da Lista de Destinações (Igual ao #lista-porquinhos) */
+#salvar-pendencia:hover,
+#excluir-pendencia:hover {
+    opacity: .85;
+}
+
+/* --- 2. REGRA CRUCIAL: ESCONDER FORMULÁRIOS (O que tinha sumido) --- */
+.escondido {
+    display: none !important;
+}
+
+
+/* --- 3. CORREÇÃO DAS DESTINAÇÕES (SEM AFETAR O RESTO) --- */
+
+/* Alinhamento da lista igual aos porquinhos */
 #lista-destinacoes {
     display: flex;
     flex-direction: column;
     gap: 18px;
+}
+
+/* Botão Salvar das destinações */
+#detalhes-destinacao .acoes button:first-child {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark)) !important;
+    color: white !important;
+    padding: 13px 24px !important;
+    border-radius: 15px !important;
+    font-weight: 600 !important;
+    border: none !important;
+    cursor: pointer !important;
+}
+
+/* Botão Excluir das destinações */
+#detalhes-destinacao .acoes button:last-child {
+    background: #8E102B !important;
+    color: white !important;
+    padding: 14px !important;
+    border-radius: 14px !important;
+    font-weight: 600 !important;
+    border: none !important;
+    cursor: pointer !important;
+    flex: 1 !important;
+}
+
+/* Padronização dos botões "Novo" do topo */
+#nova-destinacao, .section-title button {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark)) !important;
+    color: white !important;
+    border: none !important;
+    border-radius: 15px !important;
+    padding: 12px 18px !important;
+    width: auto !important; /* Impede o botão de Novo de ficar gigante */
+    cursor: pointer !important;
+    font-weight: 500 !important;
+    font-size: 15px !important;
 }
