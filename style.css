@@ -394,84 +394,66 @@ h2{
 }
 
 /* Esconder formulários */
-.escondido{
-    display:none;
-}
-
-
-/* Card de pendência */
-.pendencia{
-    background:rgba(255,255,255,0.05);
-    border:1px solid rgba(255,255,255,0.12);
-    border-radius:18px;
-    padding:18px;
-    margin-top:12px;
-    cursor:pointer;
-    transition:.2s;
-}
-
-
-.pendencia:hover{
-    transform:translateY(-3px);
-    border-color:#8b1538;
-}
-
-.pendencia h3{
-    margin-bottom:8px;
-}
-
-.pendencia p{
-    color:#ccc;
-    margin-bottom:10px;
-}
-
-/* Botão salvar pendência */
-#salvar-pendencia{
-    background:#7a1232;
-    color:white;
-    border:none;
-    border-radius:14px;
-    padding:12px 20px;
-    cursor:pointer;
-}
-
-/* Botão excluir pendência */
-#excluir-pendencia{
-    background:#450015;
-    color:white;
-    border:none;
-    border-radius:14px;
-    padding:12px 20px;
-    cursor:pointer;
-}
-
-#salvar-pendencia:hover,
-#excluir-pendencia:hover{
-    opacity:.85;
-}
-
 /* ==========================================================================
-   PADRONIZAÇÃO DA ABA DE DESTINAÇÕES COM OS PORQUINHOS
+   PADRONIZAÇÃO DEFINITIVA: BOTÕES E ELEMENTOS DO SITE
    ========================================================================== */
 
-/* Faz a lista de destinações ter o mesmo comportamento de colunas e espaçamento */
+/* 1. TODOS OS BOTÕES DE SALVAR (Porquinhos e Destinações ficam IDÊNTICOS) */
+#salvar, #salvar-destinacao {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark)) !important;
+    border: none !important;
+    color: white !important;
+    padding: 13px 24px !important;
+    border-radius: 15px !important;
+    cursor: pointer !important;
+    font-weight: 600 !important;
+    font-size: 16px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+}
+
+/* 2. TODOS OS BOTÕES DE EXCLUIR (Porquinhos e Destinações ficam IDÊNTICOS) */
+#excluir, #excluir-destinacao {
+    background: #8E102B !important;
+    color: #fff !important;
+    border: none !important;
+    border-radius: 14px !important;
+    padding: 14px !important;
+    cursor: pointer !important;
+    font-weight: 600 !important;
+    font-size: 16px !important;
+    flex: 1 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+}
+
+/* 3. TODOS OS BOTÕES DE "NOVO" (Topo das seções ficam IDÊNTICOS) */
+.section-title button, #nova-destinacao {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark)) !important;
+    color: white !important;
+    border: none !important;
+    border-radius: 15px !important;
+    padding: 12px 18px !important;
+    cursor: pointer !important;
+    font-weight: 500 !important;
+    font-size: 15px !important;
+}
+
+/* 4. PADRONIZAÇÃO DO LAYOUT E FUNDO DA LISTA DE DESTINAÇÕES */
 #lista-destinacoes {
     display: flex;
     flex-direction: column;
     gap: 18px;
 }
 
-/* Garante a cor oficial do seu porquinho e remove qualquer interferência */
 #lista-destinacoes .porquinho {
     background: var(--card) !important;
     border: 1px solid var(--border) !important;
-}
-
-/* Força os botões de Salvar e Excluir a terem o mesmo tamanho e padrão do botão .detalhes */
-#detalhes-destinacao .acoes button {
-    padding: 13px;
-    border-radius: 15px;
-    font-size: 16px;
-    cursor: pointer;
-    border: none;
+    border-radius: 22px !important;
+    backdrop-filter: blur(20px) !important;
+    padding: 20px !important;
 }
