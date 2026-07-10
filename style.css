@@ -1,14 +1,5 @@
-/* IMPORTAÇÕES*/
+/* IMPORTAÇÕES */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-
-/* Xilosa Fonte */
-@font-face {
-    font-family: 'Xilosa';
-    src: url('xilosa.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-}
-
 
 /* CORES */
 
@@ -77,7 +68,7 @@ body{
 
 .header h1{
     font-size:34px;
-    font-family: 'Xilosa', sans-serif;
+    font-family:"Cordelina",serif;
     color:white;
 }
 
@@ -148,7 +139,7 @@ main{
 /* TITULOS */
 
 h2{
-    font-family: 'Xilosa', sans-serif;
+    font-family:"Cordelina",serif;
     font-size:25px;
     margin-bottom:18px;
 }
@@ -227,7 +218,6 @@ h2{
 .porquinho h3{
     font-size:22px;
     margin-bottom:10px;
-    font-family: 'Xilosa', sans-serif;
 }
 
 .valor{
