@@ -43,19 +43,19 @@
     <nav class="navbar">
 
         <button class="nav-btn active" data-page="caixa">
-
             <i class="fa-solid fa-wallet"></i>
-
             <span>Caixa Geral</span>
-
         </button>
 
         <button class="nav-btn" data-page="porquinhos">
-
             <i class="fa-solid fa-piggy-bank"></i>
-
             <span>Porquinhos</span>
 
+        </button>
+
+        <button class="nav-btn" data-page="destinacoes">
+            <i class="fa-solid fa-chart-pie"></i>
+            <span>Simulação</span>
         </button>
 
     </nav>
@@ -337,6 +337,65 @@
 
                 </div>
 
+            </div>
+
+        </section>
+
+        <!-- Destinações -->
+        <section id="destinacoes" class="page">
+
+            <div class="card">
+                <h2>Simulação de Destinação</h2>
+                <div class="saldo-grid">
+                    <div class="saldo-item">
+                        <span>Saldo Total Real</span>
+                        <strong id="simulacao-saldo-real">R$ 0,00</strong>
+                    </div>
+                    <div class="saldo-item total">
+                        <span>Saldo Restante (Livre)</span>
+                        <strong id="simulacao-saldo-restante" style="color: #4cd137;">R$ 0,00</strong>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="section-title">
+                    <h2>Minhas Destinações</h2>
+                    <button id="nova-destinacao">
+                        <i class="fa-solid fa-plus"></i> Novo
+                    </button>
+                </div>
+
+                <div id="lista-destinacoes">
+                    </div>
+                
+                <div id="form-destinacao" class="card escondido" style="margin-top: 20px; padding: 0; border: none; background: transparent; box-shadow: none;">
+                    <h3 id="titulo-form-destinacao" style="margin-bottom: 15px;">Nova Destinação</h3>
+                    
+                    <div class="campo">
+                        <label>Nome / Destino</label>
+                        <input type="text" id="destinacao-nome" placeholder="Ex: Reservar para o Hotel">
+                    </div>
+
+                    <div class="campo">
+                        <label>Descrição</label>
+                        <textarea id="destinacao-descricao" placeholder="Detalhes sobre esta simulação"></textarea>
+                    </div>
+
+                    <div class="campo">
+                        <label>Valor a Separar</label>
+                        <input type="number" id="destinacao-valor" min="0" value="0">
+                    </div>
+
+                    <div class="acoes">
+                        <button id="salvar-destinacao" style="background:#7a1232; color:white; border:none; border-radius:14px; padding:12px 20px; cursor:pointer;">
+                            <i class="fa-solid fa-floppy-disk"></i> Salvar
+                        </button>
+                        <button id="excluir-destinacao" style="background:#450015; color:white; border:none; border-radius:14px; padding:12px 20px; cursor:pointer;">
+                            <i class="fa-solid fa-trash"></i> Excluir
+                        </button>
+                    </div>
+                </div>
             </div>
 
         </section>

@@ -39,3 +39,4 @@ window.addEventListener("DOMContentLoaded",()=>{
 });
 
 import "./pendencias.js";
+import "./destinacoes.js";
