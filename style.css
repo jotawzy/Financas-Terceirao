@@ -450,28 +450,6 @@ h2{
     opacity:.85;
 }
 
-/*  ABA DE DESTINAÇÕES (SIMULAÇÃO)*/
-
-/* ==========================================================================
-   AJUSTES ESTÉTICOS EXCLUSIVOS DAS DESTINAÇÕES
-   ========================================================================== */
-
-/* 1. CORRIGIR A COR DO CARD DA DESTINAÇÃO CRIADA */
-/* Se a div ficou esbranquiçada, isto vai garantir que ela use exatamente a mesma cor escura/padrão dos porquinhos */
-#lista-destinacoes .porquinho {
-    background: var(--bg-card, #1e1e1e); /* Substitua pela cor exata do seu porquinho se você não usar variáveis */
-    box-shadow: none; /* Remove sombras extras se houver */
-}
-
-/* 2. TAMANHO DOS BOTÕES DE SALVAR E EXCLUIR */
-/* Força os botões da tela de detalhes da destinação a seguirem o mesmo tamanho/comportamento dos botões do porquinho */
-#detalhes-destinacao .acoes button {
-    padding: 12px 20px; /* Ajuste para bater com o tamanho padrão do seu botão */
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-}
-
 #destinacoes .saldo-item {
     display: flex;
     flex-direction: column;
