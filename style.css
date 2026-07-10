@@ -482,3 +482,12 @@ h2{
     cursor: pointer;
     flex: 1; /* Faz ele expandir igual ao seu original */
 }
+
+#lista-destinacoes .porquinho {
+    /* Substitui o fundo claro por um tom escuro semi-transparente (ajuste o 0.6 se quiser mais escuro ou mais claro) */
+    background: rgba(18, 18, 18, 0.6) !important; 
+    
+    /* Garante que o efeito de desfoque e a borda fiquem idênticos */
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--border);
+}
