@@ -395,65 +395,49 @@ h2{
 
 /* Esconder formulários */
 /* ==========================================================================
-   PADRONIZAÇÃO DEFINITIVA: BOTÕES E ELEMENTOS DO SITE
+   FIX DEFINITIVO E SEGURO PARA DESTINAÇÕES (SEM QUEBRAR OUTRAS TELAS)
    ========================================================================== */
 
-/* 1. TODOS OS BOTÕES DE SALVAR (Porquinhos e Destinações ficam IDÊNTICOS) */
-#salvar, #salvar-destinacao {
-    background: linear-gradient(135deg, var(--primary), var(--primary-dark)) !important;
-    border: none !important;
-    color: white !important;
-    padding: 13px 24px !important;
-    border-radius: 15px !important;
-    cursor: pointer !important;
-    font-weight: 600 !important;
-    font-size: 16px !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    gap: 8px !important;
+/* 1. Botão Salvar das Destinações (Copia a cor e tamanho do seu padrão, sem quebrar o display) */
+#salvar-destinacao {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    border: none;
+    color: white;
+    padding: 13px 24px;
+    border-radius: 15px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 16px;
 }
 
-/* 2. TODOS OS BOTÕES DE EXCLUIR (Porquinhos e Destinações ficam IDÊNTICOS) */
-#excluir, #excluir-destinacao {
-    background: #8E102B !important;
-    color: #fff !important;
-    border: none !important;
-    border-radius: 14px !important;
-    padding: 14px !important;
-    cursor: pointer !important;
-    font-weight: 600 !important;
-    font-size: 16px !important;
-    flex: 1 !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    gap: 8px !important;
+/* 2. Botão Excluir das Destinações (Copia a cor e tamanho do seu padrão) */
+#excluir-destinacao {
+    background: #8E102B;
+    color: #fff;
+    border: none;
+    border-radius: 14px;
+    padding: 14px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 16px;
+    flex: 1;
 }
 
-/* 3. TODOS OS BOTÕES DE "NOVO" (Topo das seções ficam IDÊNTICOS) */
-.section-title button, #nova-destinacao {
-    background: linear-gradient(135deg, var(--primary), var(--primary-dark)) !important;
-    color: white !important;
-    border: none !important;
-    border-radius: 15px !important;
-    padding: 12px 18px !important;
-    cursor: pointer !important;
-    font-weight: 500 !important;
-    font-size: 15px !important;
+/* 3. Botão Novo das Destinações (Idêntico ao seu .section-title button original) */
+#nova-destinacao {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: white;
+    border: none;
+    border-radius: 15px;
+    padding: 12px 18px;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 15px;
 }
 
-/* 4. PADRONIZAÇÃO DO LAYOUT E FUNDO DA LISTA DE DESTINAÇÕES */
+/* 4. Alinhamento da Lista de Destinações (Igual ao #lista-porquinhos) */
 #lista-destinacoes {
     display: flex;
     flex-direction: column;
     gap: 18px;
-}
-
-#lista-destinacoes .porquinho {
-    background: var(--card) !important;
-    border: 1px solid var(--border) !important;
-    border-radius: 22px !important;
-    backdrop-filter: blur(20px) !important;
-    padding: 20px !important;
 }
