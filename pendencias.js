@@ -121,14 +121,17 @@ function mostrarPendencias(){
                 ${p.descricao || ""}
 
             </p>
-
-
-            <strong>
+        ${
+            Number(p.valor)>0
+            ?`
+            <strong> 
 
                 ${formatarValor(p.valor)}
 
             </strong>
-
+            `
+            :""
+        }
 
         `;
 
@@ -167,6 +170,11 @@ botaoNova.onclick=()=>{
         fecharFormulario();
 
     }
+
+    formulario.scrollIntoView({
+        behavior:"smooth",
+        block:"center"
+    });
 
 };
 
