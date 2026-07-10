@@ -450,10 +450,3 @@ h2{
     opacity:.85;
 }
 
-#destinacoes .saldo-item {
-    display: flex;
-    flex-direction: column;
-    padding: 15px;
-    background: rgba(255, 255, 255, 0.05); /* Ou a cor de fundo leve que usar nos cards */
-    border-radius: 12px;
-}
