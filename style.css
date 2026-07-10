@@ -452,56 +452,24 @@ h2{
 
 /*  ABA DE DESTINAÇÕES (SIMULAÇÃO)*/
 
-/* Garante que o grid de cards da simulação herde o mesmo comportamento dos porquinhos */
-#lista-destinacoes {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 20px;
-    margin-top: 20px;
+/* ==========================================================================
+   AJUSTES ESTÉTICOS EXCLUSIVOS DAS DESTINAÇÕES
+   ========================================================================== */
+
+/* 1. CORRIGIR A COR DO CARD DA DESTINAÇÃO CRIADA */
+/* Se a div ficou esbranquiçada, isto vai garantir que ela use exatamente a mesma cor escura/padrão dos porquinhos */
+#lista-destinacoes .porquinho {
+    background: var(--bg-card, #1e1e1e); /* Substitua pela cor exata do seu porquinho se você não usar variáveis */
+    box-shadow: none; /* Remove sombras extras se houver */
 }
 
-/* Força os botões de Salvar e Excluir dentro de Detalhes a ficarem lado a lado com o mesmo tamanho */
-#detalhes-destinacao .acoes {
-    display: flex;
-    gap: 15px;
-    margin-top: 25px;
-    width: 100%;
-}
-
+/* 2. TAMANHO DOS BOTÕES DE SALVAR E EXCLUIR */
+/* Força os botões da tela de detalhes da destinação a seguirem o mesmo tamanho/comportamento dos botões do porquinho */
 #detalhes-destinacao .acoes button {
-    flex: 1; /* Faz ambos os botões dividirem o espaço igualmente (mesmo tamanho) */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    padding: 14px;
-    border: none;
-    border-radius: 12px;
+    padding: 12px 20px; /* Ajuste para bater com o tamanho padrão do seu botão */
     font-size: 16px;
     font-weight: 600;
     cursor: pointer;
-    transition: background 0.2s ease, transform 0.1s ease;
-}
-
-/* Mantém o padrão de clique/efeito visual dos botões */
-#detalhes-destinacao .acoes button:active {
-    transform: scale(0.98);
-}
-
-/* Ajuste específico para o preenchimento do text-area de descrição, se necessário */
-#detalhes-destinacao textarea {
-    width: 100%;
-    min-height: 100px;
-    resize: vertical;
-    box-sizing: border-box;
-}
-
-/* Layout do seletor de saldo da simulação para ficar idêntico ao principal */
-#destinacoes .saldo-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 15px;
-    margin-top: 15px;
 }
 
 #destinacoes .saldo-item {
