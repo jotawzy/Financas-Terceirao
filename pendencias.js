@@ -85,7 +85,7 @@ function mostrarPendencias(){
 
             <p class="vazio">
 
-                Nenhuma pendência cadastrada.
+                Nenhuma Anotação cadastrada.
 
             </p>
 
@@ -191,7 +191,7 @@ function abrirEdicao(id){
 
 
     tituloForm.textContent=
-    "Editar Pendência";
+    "Editar Anotação";
 
 
     campoTitulo.value=
@@ -320,7 +320,7 @@ botaoExcluir.onclick=async()=>{
 function limparFormulario(){
 
     tituloForm.textContent=
-    "Nova Pendência";
+    "Nova Anotação";
 
 
     campoTitulo.value="";
