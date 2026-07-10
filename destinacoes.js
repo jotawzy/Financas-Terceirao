@@ -3,6 +3,7 @@
 // ================================
 
 import { db } from "./firebase.js";
+import { abrirPagina } from "./ui.js";
 import {
     ref,
     push,
@@ -23,12 +24,13 @@ let destinacaoAtual = null;
 // ================================
 const lista = document.getElementById("lista-destinacoes");
 const botaoNova = document.getElementById("nova-destinacao");
-const formulario = document.getElementById("form-destinacao");
+const botaoVoltar = document.getElementById("voltar-destinacao");
 const tituloForm = document.getElementById("titulo-form-destinacao");
 
 const campoNome = document.getElementById("destinacao-nome");
 const campoDescricao = document.getElementById("destinacao-descricao");
 const campoValor = document.getElementById("destinacao-valor");
+const statusSalvar = document.getElementById("status-destinacao");
 
 const botaoSalvar = document.getElementById("salvar-destinacao");
 const botaoExcluir = document.getElementById("excluir-destinacao");
@@ -46,13 +48,11 @@ const refDestinacoes = ref(db, "financeiro/simulacao_destinacoes");
 // ESCUTAR BANCO DE DADOS
 // ================================
 
-// Escuta os porquinhos para saber o saldo real total atualizado
 onValue(refPorquinhos, (snapshot) => {
     porquinhos = snapshot.val() || {};
     recalcularSimulacao();
 });
 
-// Escuta as destinações salvas para a simulação
 onValue(refDestinacoes, (snapshot) => {
     destinacoes = snapshot.val() || {};
     mostrarDestinacoes();
@@ -64,25 +64,20 @@ onValue(refDestinacoes, (snapshot) => {
 // ================================
 function recalcularSimulacao() {
     let totalReal = 0;
-    
-    // Soma o valor real de todos os porquinhos cadastrados
     Object.values(porquinhos).forEach(p => {
         totalReal += Number(p.pix || 0) + Number(p.fisico || 0);
     });
 
     let totalAlocado = 0;
-    // Soma o valor de todas as simulações criadas nesta aba
     Object.values(destinacoes).forEach(d => {
         totalAlocado += Number(d.valor || 0);
     });
 
     let saldoRestante = totalReal - totalAlocado;
 
-    // Atualiza a tela da aba de simulação
     txtSaldoReal.textContent = formatarMoeda(totalReal);
     txtSaldoRestante.textContent = formatarMoeda(saldoRestante);
 
-    // Se o saldo restante ficar negativo, muda a cor para vermelho, senão deixa verde
     if (saldoRestante < 0) {
         txtSaldoRestante.style.color = "#ff4d4d";
     } else {
@@ -91,7 +86,7 @@ function recalcularSimulacao() {
 }
 
 // ================================
-// RENDERIZAR LISTA DE DESTINAÇÕES
+// RENDERIZAR LISTA DE DESTINAÇÕES (IGUAL OS PORQUINHOS)
 // ================================
 function mostrarDestinacoes() {
     lista.innerHTML = "";
@@ -105,15 +100,20 @@ function mostrarDestinacoes() {
 
     Object.entries(destinacoes).forEach(([id, d]) => {
         const card = document.createElement("div");
-        card.className = "pendencia"; // Reaproveitando os estilos CSS que você já criou
+        card.className = "porquinho"; // Reaproveita a classe CSS visual dos porquinhos
 
         card.innerHTML = `
             <h3>${d.nome}</h3>
-            <p>${d.descricao || ""}</p>
-            <strong>${formatarMoeda(d.valor)}</strong>
+            <div class="valor">
+                ${formatarMoeda(d.valor)}
+            </div>
+            <div class="descricao">
+                ${d.descricao || ""}
+            </div>
+            <button class="detalhes">Detalhes</button>
         `;
 
-        card.onclick = () => {
+        card.querySelector(".detalhes").onclick = () => {
             abrirEdicao(id);
         };
 
@@ -122,35 +122,29 @@ function mostrarDestinacoes() {
 }
 
 // ================================
-// CONTROLE DO FORMULÁRIO
+// CONTROLE DE NAVEGAÇÃO / DETALHES
 // ================================
 botaoNova.onclick = () => {
-    if (formulario.classList.contains("escondido")) {
-        destinacaoAtual = null;
-        limparFormulario();
-        formulario.classList.remove("escondido");
-    } else {
-        fecharFormulario();
-    }
+    destinacaoAtual = null;
+    limparFormulario();
+    abrirPagina("detalhes-destinacao");
+};
+
+botaoVoltar.onclick = () => {
+    abrirPagina("destinacoes"); // Volta sem salvar nada
 };
 
 function abrirEdicao(id) {
     const d = destinacoes[id];
     destinacaoAtual = id;
 
-    tituloForm.textContent = "Editar Destinação";
+    tituloForm.textContent = d.nome || "Editar Destinação";
     campoNome.value = d.nome || "";
     campoDescricao.value = d.descricao || "";
     campoValor.value = d.valor || 0;
+    statusSalvar.textContent = "";
 
-    formulario.classList.remove("escondido");
-    formulario.scrollIntoView({ behavior: "smooth", block: "center" });
-}
-
-function fecharFormulario() {
-    formulario.classList.add("escondido");
-    destinacaoAtual = null;
-    limparFormulario();
+    abrirPagina("detalhes-destinacao");
 }
 
 function limparFormulario() {
@@ -158,7 +152,19 @@ function limparFormulario() {
     campoNome.value = "";
     campoDescricao.value = "";
     campoValor.value = 0;
+    statusSalvar.textContent = "";
 }
+
+// ================================
+// MONITORAR ALTERAÇÕES NÃO SALVAS
+// ================================
+function marcarAlterado() {
+    statusSalvar.textContent = "Alterações não salvas";
+}
+
+[campoNome, campoDescricao, campoValor].forEach(campo => {
+    campo.addEventListener("input", marcarAlterado);
+});
 
 // ================================
 // AÇÕES: SALVAR E EXCLUIR
@@ -171,7 +177,7 @@ botaoSalvar.onclick = async () => {
     };
 
     if (!dados.nome) {
-        alert("Digite um nome para a destinação.");
+        alert("Informe um nome.");
         return;
     }
 
@@ -182,19 +188,17 @@ botaoSalvar.onclick = async () => {
         await set(novaRef, dados);
     }
 
-    fecharFormulario();
+    statusSalvar.textContent = "Salvo!";
+    abrirPagina("destinacoes");
 };
 
 botaoExcluir.onclick = async () => {
-    if (!destinacaoAtual) {
-        fecharFormulario();
-        return;
-    }
+    if (!destinacaoAtual) return;
 
-    if (confirm("Deseja excluir esta simulação de gasto?")) {
-        await remove(ref(db, `financeiro/simulacao_destinacoes/${destinacaoAtual}`));
-        fecharFormulario();
-    }
+    if (!confirm("Excluir esta simulação de destinação?")) return;
+
+    await remove(ref(db, `financeiro/simulacao_destinacoes/${destinacaoAtual}`));
+    abrirPagina("destinacoes");
 };
 
 // ================================
