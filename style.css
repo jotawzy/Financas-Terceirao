@@ -454,10 +454,6 @@ h2{
    PADRONIZAÇÃO DA ABA DE DESTINAÇÕES COM OS PORQUINHOS
    ========================================================================== */
 
-/* ==========================================================================
-   CORREÇÃO CIRÚRGICA: DESTINAÇÕES IDENTICAS AOS PORQUINHOS
-   ========================================================================== */
-
 /* Faz a lista de destinações ter o mesmo comportamento de colunas e espaçamento */
 #lista-destinacoes {
     display: flex;
@@ -478,4 +474,22 @@ h2{
     font-size: 16px;
     cursor: pointer;
     border: none;
+}
+
+#excluir-destinacao{
+    background:#7a1232;
+    color:white;
+    border:none;
+    border-radius:14px;
+    padding:12px 20px;
+    cursor:pointer;
+}
+
+#salvar-destinacaot{
+    background:#450015;
+    color:white;
+    border:none;
+    border-radius:14px;
+    padding:12px 20px;
+    cursor:pointer;
 }
