@@ -40,3 +40,15 @@ window.addEventListener("DOMContentLoaded",()=>{
 
 import "./pendencias.js";
 import "./destinacoes.js";
+
+const abrirCarne = document.getElementById("abrir-carne");
+
+if (abrirCarne) {
+
+    abrirCarne.onclick = () => {
+
+        window.location.href = "carne.html";
+
+    };
+
+}

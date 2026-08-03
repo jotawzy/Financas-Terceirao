@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Carnês • Financeiro</title>
+
+    <!-- Fontes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.cdnfonts.com/css/cordelina" rel="stylesheet">
+
+    <!-- Ícones -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <!-- Mesmo CSS do sistema -->
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+    <div class="background"></div>
+
+    <header class="header">
+
+        <div>
+
+            <h1>Financeiro</h1>
+
+            <p>Controle de Carnês</p>
+
+        </div>
+
+    </header>
+
+    <main>
+
+        <!-- RESUMO -->
+
+        <div class="card">
+
+            <div class="section-title">
+
+                <h2>Carnês</h2>
+
+                <div class="saldo-item total" style="border:none;padding:0;gap:12px;">
+
+                    <span style="color:white;">
+                        Arrecadado
+                    </span>
+
+                    <strong id="total-carne">
+                        R$ 0,00
+                    </strong>
+
+                </div>
+
+            </div>
+
+            <p style="color:var(--gray);margin-top:-8px;">
+                Marque cada parcela conforme o pagamento for realizado.
+            </p>
+
+        </div>
+
+        <!-- LISTA -->
+
+        <div class="card">
+
+            <div id="lista-carne">
+
+                <!-- Criado pelo carne.js -->
+
+            </div>
+
+        </div>
+
+        <!-- VOLTAR -->
+
+        <button
+            id="voltar-caixa"
+            class="detalhes"
+            style="margin-top:20px;">
+
+            <i class="fa-solid fa-arrow-left"></i>
+
+            Voltar ao Caixa Geral
+
+        </button>
+
+    </main>
+
+    <script type="module" src="carne.js"></script>
+
+</body>
+
+</html>

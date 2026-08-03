@@ -111,7 +111,7 @@
 
             </div>
 
-            <div class="card">
+                        <div class="card">
 
                 <div class="section-title">
 
@@ -132,71 +132,100 @@
                     <!-- JS -->
 
                 </div>
-                
+
                 <div id="form-pendencia" class="card escondido">
 
-    <h3 id="titulo-form-pendencia">
-        Nova Anotação
-    </h3>
+                    <h3 id="titulo-form-pendencia">
+                        Nova Anotação
+                    </h3>
 
-    <div class="campo">
+                    <div class="campo">
 
-        <label>Título</label>
+                        <label>Título</label>
 
-        <input 
-            type="text" 
-            id="pendencia-titulo"
-            placeholder="Ex: Pagar gráfica">
+                        <input
+                            type="text"
+                            id="pendencia-titulo"
+                            placeholder="Ex: Pagar gráfica">
 
-    </div>
+                    </div>
 
+                    <div class="campo">
 
-    <div class="campo">
+                        <label>Descrição</label>
 
-        <label>Descrição</label>
+                        <textarea
+                            id="pendencia-descricao"
+                            placeholder="Detalhes da pendência"></textarea>
 
-        <textarea
-            id="pendencia-descricao"
-            placeholder="Detalhes da pendência"></textarea>
+                    </div>
 
-    </div>
+                    <div class="campo">
 
+                        <label>Valor</label>
 
-    <div class="campo">
+                        <input
+                            type="number"
+                            id="pendencia-valor"
+                            min="0"
+                            value="0">
 
-        <label>Valor</label>
+                    </div>
 
-        <input 
-            type="number"
-            id="pendencia-valor"
-            min="0"
-            value="0">
+                    <div class="acoes">
 
-    </div>
+                        <button id="salvar-pendencia">
 
+                            <i class="fa-solid fa-floppy-disk"></i>
 
-    <div class="acoes">
+                            Salvar
 
-        <button id="salvar-pendencia">
+                        </button>
 
-            <i class="fa-solid fa-floppy-disk"></i>
+                        <button id="excluir-pendencia">
 
-            Salvar
+                            <i class="fa-solid fa-trash"></i>
 
-        </button>
+                            Excluir
 
+                        </button>
 
-        <button id="excluir-pendencia">
+                    </div>
 
-            <i class="fa-solid fa-trash"></i>
+                </div>
 
-            Excluir
+            </div>
 
-        </button>
+            <!-- ============================= -->
+            <!-- CARNÊS -->
+            <!-- ============================= -->
 
-    </div>
+            <div class="card">
 
-</div>
+                <div class="section-title">
+
+                    <h2>
+                        <i class="fa-solid fa-money-check-dollar"></i>
+                        Carnês
+                    </h2>
+
+                </div>
+
+                <p style="color:var(--gray); margin-bottom:20px;">
+
+                    Controle dos pagamentos dos carnês da formatura.
+
+                </p>
+
+                <button
+                    id="abrir-carne"
+                    class="detalhes">
+
+                    <i class="fa-solid fa-arrow-up-right-from-square"></i>
+
+                    Abrir Controle dos Carnês
+
+                </button>
 
             </div>
 
