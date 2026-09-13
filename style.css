@@ -547,3 +547,34 @@ h2{
     color:white;
 
 }
+
+html, body {
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* 1. RENDERIZAÇÃO SOB DEMANDA (Evita processar o que está fora da tela) */
+.porquinho, 
+.card, 
+.section-title, 
+.mes-checkbox,
+.item-lista {
+    content-visibility: auto;
+    contain-intrinsic-size: 0 90px;
+    contain: layout style paint;
+}
+
+/* 2. EVITA RECALCULAR TODAS AS PROPRIEDADES (Troca transition: all) */
+* {
+    /* Desativa transições globais lentas que travam o scroll */
+    transition: transform 0.15s ease, opacity 0.15s ease;
+}
+
+/* 3. DESATIVE EFEITOS PESADOS DE GPU NAS LISTAS */
+/* Se você usava backdrop-filter (blur) ou sombras pesadas nos cards, substitua por bordas leves */
+.porquinho, .card {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08) !important;
+    will-change: auto;
+}
