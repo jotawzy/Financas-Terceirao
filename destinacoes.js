@@ -75,13 +75,10 @@ function recalcularSimulacao() {
 
     let saldoRestante = totalReal - totalAlocado;
 
-    txtSaldoReal.textContent = formatarMoeda(totalReal);
-    txtSaldoRestante.textContent = formatarMoeda(saldoRestante);
-
-    if (saldoRestante < 0) {
-        txtSaldoRestante.style.color = "#ff4d4d";
-    } else {
-        txtSaldoRestante.style.color = "#4cd137";
+    if (txtSaldoReal) txtSaldoReal.textContent = formatarMoeda(totalReal);
+    if (txtSaldoRestante) {
+        txtSaldoRestante.textContent = formatarMoeda(saldoRestante);
+        txtSaldoRestante.style.color = saldoRestante < 0 ? "#ff4d4d" : "#4cd137";
     }
 }
 
@@ -89,6 +86,7 @@ function recalcularSimulacao() {
 // RENDERIZAR LISTA DE DESTINAÇÕES (IGUAL OS PORQUINHOS)
 // ================================
 function mostrarDestinacoes() {
+    if (!lista) return;
     lista.innerHTML = "";
 
     if (Object.keys(destinacoes).length === 0) {
@@ -103,7 +101,7 @@ function mostrarDestinacoes() {
         card.className = "porquinho"; // Reaproveita a classe CSS visual dos porquinhos
 
         card.innerHTML = `
-            <h3>${d.nome}</h3>
+            <h3>${d.nome || ""}</h3>
             <div class="valor">
                 ${formatarMoeda(d.valor)}
             </div>
@@ -124,82 +122,90 @@ function mostrarDestinacoes() {
 // ================================
 // CONTROLE DE NAVEGAÇÃO / DETALHES
 // ================================
-botaoNova.onclick = () => {
-    destinacaoAtual = null;
-    limparFormulario();
-    abrirPagina("detalhes-destinacao");
-};
+if (botaoNova) {
+    botaoNova.onclick = () => {
+        destinacaoAtual = null;
+        limparFormulario();
+        abrirPagina("detalhes-destinacao");
+    };
+}
 
-botaoVoltar.onclick = () => {
-    abrirPagina("destinacoes"); // Volta sem salvar nada
-};
+if (botaoVoltar) {
+    botaoVoltar.onclick = () => {
+        abrirPagina("destinacoes"); // Volta sem salvar nada
+    };
+}
 
 function abrirEdicao(id) {
     const d = destinacoes[id];
+    if (!d) return;
     destinacaoAtual = id;
 
-    tituloForm.textContent = d.nome || "Editar Destinação";
-    campoNome.value = d.nome || "";
-    campoDescricao.value = d.descricao || "";
-    campoValor.value = d.valor || 0;
-    statusSalvar.textContent = "";
+    if (tituloForm) tituloForm.textContent = d.nome || "Editar Destinação";
+    if (campoNome) campoNome.value = d.nome || "";
+    if (campoDescricao) campoDescricao.value = d.descricao || "";
+    if (campoValor) campoValor.value = d.valor || 0;
+    if (statusSalvar) statusSalvar.textContent = "";
 
     abrirPagina("detalhes-destinacao");
 }
 
 function limparFormulario() {
-    tituloForm.textContent = "Nova Destinação";
-    campoNome.value = "";
-    campoDescricao.value = "";
-    campoValor.value = 0;
-    statusSalvar.textContent = "";
+    if (tituloForm) tituloForm.textContent = "Nova Destinação";
+    if (campoNome) campoNome.value = "";
+    if (campoDescricao) campoDescricao.value = "";
+    if (campoValor) campoValor.value = 0;
+    if (statusSalvar) statusSalvar.textContent = "";
 }
 
 // ================================
 // MONITORAR ALTERAÇÕES NÃO SALVAS
 // ================================
 function marcarAlterado() {
-    statusSalvar.textContent = "Alterações não salvas";
+    if (statusSalvar) statusSalvar.textContent = "Alterações não salvas";
 }
 
 [campoNome, campoDescricao, campoValor].forEach(campo => {
-    campo.addEventListener("input", marcarAlterado);
+    if (campo) campo.addEventListener("input", marcarAlterado);
 });
 
 // ================================
 // AÇÕES: SALVAR E EXCLUIR
 // ================================
-botaoSalvar.onclick = async () => {
-    const dados = {
-        nome: campoNome.value.trim(),
-        descricao: campoDescricao.value.trim(),
-        valor: Number(campoValor.value) || 0
+if (botaoSalvar) {
+    botaoSalvar.onclick = async () => {
+        const dados = {
+            nome: campoNome?.value.trim() || "",
+            descricao: campoDescricao?.value.trim() || "",
+            valor: Number(campoValor?.value) || 0
+        };
+
+        if (!dados.nome) {
+            alert("Informe um nome.");
+            return;
+        }
+
+        if (destinacaoAtual) {
+            await set(ref(db, `financeiro/simulacao_destinacoes/${destinacaoAtual}`), dados);
+        } else {
+            const novaRef = push(refDestinacoes);
+            await set(novaRef, dados);
+        }
+
+        if (statusSalvar) statusSalvar.textContent = "Salvo!";
+        abrirPagina("destinacoes");
     };
+}
 
-    if (!dados.nome) {
-        alert("Informe um nome.");
-        return;
-    }
+if (botaoExcluir) {
+    botaoExcluir.onclick = async () => {
+        if (!destinacaoAtual) return;
+        if (!confirm("Excluir esta simulação de destinação?")) return;
 
-    if (destinacaoAtual) {
-        await set(ref(db, `financeiro/simulacao_destinacoes/${destinacaoAtual}`), dados);
-    } else {
-        const novaRef = push(refDestinacoes);
-        await set(novaRef, dados);
-    }
-
-    statusSalvar.textContent = "Salvo!";
-    abrirPagina("destinacoes");
-};
-
-botaoExcluir.onclick = async () => {
-    if (!destinacaoAtual) return;
-
-    if (!confirm("Excluir esta simulação de destinação?")) return;
-
-    await remove(ref(db, `financeiro/simulacao_destinacoes/${destinacaoAtual}`));
-    abrirPagina("destinacoes");
-};
+        await remove(ref(db, `financeiro/simulacao_destinacoes/${destinacaoAtual}`));
+        abrirPagina("destinacoes");
+    };
+}
 
 // ================================
 // AUXILIAR: FORMATAR DINHEIRO
@@ -208,48 +214,5 @@ function formatarMoeda(valor) {
     return Number(valor || 0).toLocaleString("pt-BR", {
         style: "currency",
         currency: "BRL"
-    });
-}
-
-let carregado = false;
-
-// O ouvinte do Firebase apenas atualiza valores na memória
-onValue(refBanco, (snapshot) => {
-    dadosLocais = snapshot.val() || {};
-    
-    if (!carregado) {
-        montarEstruturaEstatica(); // Roda só 1 vez na primeira carga
-        carregado = true;
-    }
-    
-    atualizarValoresNaTela(); // Atualiza só os dados alterados sem apagar HTML
-});
-
-function montarEstruturaEstatica() {
-    lista.innerHTML = "";
-    const fragmento = document.createDocumentFragment();
-
-    itens.forEach(item => {
-        const card = document.createElement("div");
-        card.className = "porquinho";
-        
-        // Estrutura fixa do HTML com IDs únicos para cada campo que muda
-        card.innerHTML = `
-            <h3>${item.nome}</h3>
-            <span id="valor-${item.id}">R$ 0,00</span>
-        `;
-        
-        fragmento.appendChild(card);
-    });
-
-    lista.appendChild(fragmento);
-}
-
-function atualizarValoresNaTela() {
-    itens.forEach(item => {
-        const elValor = document.getElementById(`valor-${item.id}`);
-        if (elValor) {
-            elValor.textContent = calcularNovoValor(item.id);
-        }
     });
 }

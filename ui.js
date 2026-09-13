@@ -25,7 +25,8 @@ const statusSalvar = document.getElementById("status");
 
 export function abrirPagina(id) {
     paginas.forEach(p => p.classList.remove("active"));
-    document.getElementById(id).classList.add("active");
+    const alvo = document.getElementById(id);
+    if (alvo) alvo.classList.add("active");
 }
 
 botoesMenu.forEach(botao => {
@@ -52,13 +53,14 @@ export function atualizarCaixa() {
         fisico += Number(p.fisico || 0);
     });
 
-    totalPix.textContent = dinheiro(pix);
-    totalFisico.textContent = dinheiro(fisico);
-    totalGeral.textContent = dinheiro(pix + fisico);
+    if (totalPix) totalPix.textContent = dinheiro(pix);
+    if (totalFisico) totalFisico.textContent = dinheiro(fisico);
+    if (totalGeral) totalGeral.textContent = dinheiro(pix + fisico);
 }
 
 export function mostrarPorquinhos(dados) {
     porquinhos = dados || {};
+    if (!listaPorquinhos) return;
     listaPorquinhos.innerHTML = "";
 
     Object.entries(porquinhos).forEach(([id, p]) => {
@@ -82,49 +84,55 @@ export function mostrarPorquinhos(dados) {
 export function abrirDetalhes(id) {
     porquinhoAtual = id;
     const p = porquinhos[id];
+    if (!p) return;
     
     abrirPagina("detalhes");
     
-    titulo.textContent = p.nome || "Novo Porquinho";
-    campoNome.value = p.nome || "";
-    campoDescricao.value = p.descricao || "";
-    campoPix.value = p.pix || 0;
-    campoFisico.value = p.fisico || 0;
-    campoObservacoes.value = p.observacoes || "";
-    statusSalvar.textContent = "";
+    if (titulo) titulo.textContent = p.nome || "Novo Porquinho";
+    if (campoNome) campoNome.value = p.nome || "";
+    if (campoDescricao) campoDescricao.value = p.descricao || "";
+    if (campoPix) campoPix.value = p.pix || 0;
+    if (campoFisico) campoFisico.value = p.fisico || 0;
+    if (campoObservacoes) campoObservacoes.value = p.observacoes || "";
+    if (statusSalvar) statusSalvar.textContent = "";
 }
 
 export function limparFormulario() {
     porquinhoAtual = null;
-    titulo.textContent = "Novo Porquinho";
-    campoNome.value = "";
-    campoDescricao.value = "";
-    campoPix.value = 0;
-    campoFisico.value = 0;
-    campoObservacoes.value = "";
-    statusSalvar.textContent = "";
+    if (titulo) titulo.textContent = "Novo Porquinho";
+    if (campoNome) campoNome.value = "";
+    if (campoDescricao) campoDescricao.value = "";
+    if (campoPix) campoPix.value = 0;
+    if (campoFisico) campoFisico.value = 0;
+    if (campoObservacoes) campoObservacoes.value = "";
+    if (statusSalvar) statusSalvar.textContent = "";
 }
 
 function marcarAlterado() {
-    statusSalvar.textContent = "Alterações não salvas";
+    if (statusSalvar) statusSalvar.textContent = "Alterações não salvas";
 }
 
 [campoNome, campoDescricao, campoPix, campoFisico, campoObservacoes].forEach(campo => {
-    campo.addEventListener("input", marcarAlterado);
+    if (campo) campo.addEventListener("input", marcarAlterado);
 });
 
-document.getElementById("voltar").onclick = () => abrirPagina("porquinhos");
+const botaoVoltar = document.getElementById("voltar");
+if (botaoVoltar) botaoVoltar.onclick = () => abrirPagina("porquinhos");
 
-document.getElementById("novo-porquinho").onclick = () => {
-    limparFormulario();
-    abrirPagina("detalhes");
-};
+const botaoNovoPorquinho = document.getElementById("novo-porquinho");
+if (botaoNovoPorquinho) {
+    botaoNovoPorquinho.onclick = () => {
+        limparFormulario();
+        abrirPagina("detalhes");
+    };
+}
 
 export function mostrarPendencias(dados) {
-    pendencias = dados;
+    pendencias = dados || {};
+    if (!listaPendencias) return;
     listaPendencias.innerHTML = "";
 
-    Object.entries(dados || {}).forEach(([id, p]) => {
+    Object.entries(pendencias).forEach(([id, p]) => {
         const item = document.createElement("div");
         item.className = "pendencia";
         item.innerHTML = `
@@ -135,37 +143,43 @@ export function mostrarPendencias(dados) {
     });
 }
 
-document.getElementById("salvar").onclick = async () => {
-    const dados = {
-        nome: campoNome.value.trim(),
-        descricao: campoDescricao.value.trim(),
-        pix: Number(campoPix.value) || 0,
-        fisico: Number(campoFisico.value) || 0,
-        observacoes: campoObservacoes.value.trim()
+const botaoSalvar = document.getElementById("salvar");
+if (botaoSalvar) {
+    botaoSalvar.onclick = async () => {
+        const dados = {
+            nome: campoNome.value.trim(),
+            descricao: campoDescricao.value.trim(),
+            pix: Number(campoPix.value) || 0,
+            fisico: Number(campoFisico.value) || 0,
+            observacoes: campoObservacoes.value.trim()
+        };
+
+        if (!dados.nome) {
+            alert("Informe um nome.");
+            return;
+        }
+
+        if (porquinhoAtual) {
+            await salvarPorquinho(porquinhoAtual, dados);
+        } else {
+            await criarPorquinho(dados);
+        }
+
+        if (statusSalvar) statusSalvar.textContent = "Salvo!";
+        abrirPagina("porquinhos");
     };
+}
 
-    if (!dados.nome) {
-        alert("Informe um nome.");
-        return;
-    }
+const botaoExcluir = document.getElementById("excluir");
+if (botaoExcluir) {
+    botaoExcluir.onclick = async () => {
+        if (!porquinhoAtual) return;
+        if (!confirm("Excluir este porquinho?")) return;
 
-    if (porquinhoAtual) {
-        await salvarPorquinho(porquinhoAtual, dados);
-    } else {
-        await criarPorquinho(dados);
-    }
-
-    statusSalvar.textContent = "Salvo!";
-    abrirPagina("porquinhos");
-};
-
-document.getElementById("excluir").onclick = async () => {
-    if (!porquinhoAtual) return;
-    if (!confirm("Excluir este porquinho?")) return;
-
-    await excluirPorquinho(porquinhoAtual);
-    abrirPagina("porquinhos");
-};
+        await excluirPorquinho(porquinhoAtual);
+        abrirPagina("porquinhos");
+    };
+}
 
 onValue(refPorquinhos, (snapshot) => {
     mostrarPorquinhos(snapshot.val());
