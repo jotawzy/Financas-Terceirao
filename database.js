@@ -1,22 +1,11 @@
-// =========================
-// database.js
-// =========================
-
 import { db } from "./firebase.js";
-
 import {
-
     ref,
     push,
     set,
     remove,
     onValue
-
-} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-database.js";
-
-// =========================
-// REFERÊNCIAS
-// =========================
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
 const PORQUINHOS = ref(db, "financeiro/porquinhos");
 

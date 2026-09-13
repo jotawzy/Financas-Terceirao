@@ -1,7 +1,3 @@
-// ================================
-// destinacoes.js
-// ================================
-
 import { db } from "./firebase.js";
 import { abrirPagina } from "./ui.js";
 import {
@@ -10,7 +6,7 @@ import {
     set,
     remove,
     onValue
-} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-database.js";
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
 // ================================
 // VARIÁVEIS LOCAIS

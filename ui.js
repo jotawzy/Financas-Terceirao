@@ -1,8 +1,4 @@
-import { db } from "./firebase.js";
-import { ref, onValue } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 import { criarPorquinho, salvarPorquinho, excluirPorquinho } from "./database.js";
-
-const refPorquinhos = ref(db, "porquinhos");
 
 let porquinhos = {};
 let pendencias = {};
@@ -180,9 +176,5 @@ if (botaoExcluir) {
         abrirPagina("porquinhos");
     };
 }
-
-onValue(refPorquinhos, (snapshot) => {
-    mostrarPorquinhos(snapshot.val());
-});
 
 export { porquinhos, pendencias, porquinhoAtual };
