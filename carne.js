@@ -1,5 +1,4 @@
 import { db } from "./firebase.js";
-
 import {
     ref,
     set,
@@ -31,21 +30,9 @@ const alunos = [
     { nome:"Pedro Henrique", valor:25 },
     { nome:"Rafael", valor:25 },
     { nome:"Rogaciano", valor:25 }
-].sort((a,b)=>
-    a.nome.localeCompare(
-        b.nome,
-        "pt-BR"
-    )
-);
+].sort((a,b)=> a.nome.localeCompare(b.nome, "pt-BR"));
 
-const meses = [
-    "julho",
-    "agosto",
-    "setembro",
-    "outubro",
-    "novembro"
-];
-
+const meses = ["julho", "agosto", "setembro", "outubro", "novembro"];
 const lista = document.getElementById("lista-carne");
 const total = document.getElementById("total-carne");
 
@@ -58,8 +45,7 @@ onValue(refCarnes, (snapshot) => {
 });
 
 function dinheiro(valor){
-    return Number(valor || 0)
-    .toLocaleString("pt-BR",{
+    return Number(valor || 0).toLocaleString("pt-BR",{
         style:"currency",
         currency:"BRL"
     });
@@ -67,37 +53,20 @@ function dinheiro(valor){
 
 function renderizarLista(){
     lista.innerHTML="";
-
     alunos.forEach(aluno=>{
-        const id = aluno.nome
-            .normalize("NFD")
-            .replace(/[\u0300-\u036f]/g,"")
-            .replace(/\s+/g,"_")
-            .toLowerCase();
-
+        const id = aluno.nome.normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/\s+/g,"_").toLowerCase();
         const dados = pagamentos[id] || {};
-
         const card = document.createElement("div");
         card.className="porquinho";
 
         let html = `
             <div class="section-title">
                 <div>
-                    <h3>
-                        ${aluno.nome}
-                    </h3>
-                    <div class="descricao">
-                        ${dinheiro(aluno.valor)}
-                        por parcela
-                    </div>
+                    <h3>${aluno.nome}</h3>
+                    <div class="descricao">${dinheiro(aluno.valor)} por parcela</div>
                 </div>
                 <div class="valor">
-                    ${dinheiro(
-                        aluno.valor *
-                        meses.filter(
-                            m => Boolean(dados[m])
-                        ).length
-                    )}
+                    ${dinheiro(aluno.valor * meses.filter(m => Boolean(dados[m])).length)}
                 </div>
             </div>
             <div class="meses">
@@ -106,33 +75,21 @@ function renderizarLista(){
         meses.forEach(mes=>{
             html += `
                 <label class="mes-checkbox">
-                    <span>
-                        ${mes.substring(0,3).toUpperCase()}
-                    </span>
-                    <input
-                        type="checkbox"
-                        class="check-carne"
-                        data-aluno="${id}"
-                        data-mes="${mes}"
-                        ${Boolean(dados[mes]) ? "checked" : ""}>
+                    <span>${mes.substring(0,3).toUpperCase()}</span>
+                    <input type="checkbox" class="check-carne" data-aluno="${id}" data-mes="${mes}" ${Boolean(dados[mes]) ? "checked" : ""}>
                 </label>
             `;
         });
 
-        html += `
-            </div>
-        `;
-
+        html += `</div>`;
         card.innerHTML = html;
         lista.appendChild(card);
     });
-
     atualizarTotal();
 }
 
 document.addEventListener("change", async (e) => {
-    if (!e.target.classList.contains("check-carne"))
-        return;
+    if (!e.target.classList.contains("check-carne")) return;
 
     const aluno = e.target.dataset.aluno;
     const mes = e.target.dataset.mes;
@@ -157,63 +114,22 @@ document.addEventListener("change", async (e) => {
         await set(ref(db, `financeiro/carnes/${aluno}`), novoEstado);
         atualizarTotal();
     } catch (err) {
-        console.error("Erro ao salvar no Firebase:", err);
+        console.error(err);
     }
 });
 
 function atualizarTotal() {
     let arrecadado = 0;
-
     alunos.forEach(aluno => {
-        const id = aluno.nome
-            .normalize("NFD")
-            .replace(/[\u0300-\u036f]/g, "")
-            .replace(/\s+/g, "_")
-            .toLowerCase();
-
+        const id = aluno.nome.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\s+/g,"_").toLowerCase();
         const dados = pagamentos[id] || {};
-
         meses.forEach(mes => {
-            if (dados[mes]) {
-                arrecadado += aluno.valor;
-            }
+            if (dados[mes]) arrecadado += aluno.valor;
         });
     });
-
     total.textContent = dinheiro(arrecadado);
-}
-
-async function inicializarBanco() {
-    for (const aluno of alunos) {
-        const id = aluno.nome
-            .normalize("NFD")
-            .replace(/[\u0300-\u036f]/g, "")
-            .replace(/\s+/g, "_")
-            .toLowerCase();
-
-        if (!pagamentos[id]) {
-            const estruturaInicial = {
-                julho: false,
-                agosto: false,
-                setembro: false,
-                outubro: false,
-                novembro: false
-            };
-            pagamentos[id] = estruturaInicial;
-            try {
-                await set(ref(db, `financeiro/carnes/${id}`), estruturaInicial);
-            } catch (err) {
-                console.error(`Erro ao criar estrutura inicial para ${id}:`, err);
-            }
-        }
-    }
-    atualizarTotal();
 }
 
 document.getElementById("voltar-caixa").onclick = () => {
     window.location.href = "index.html";
 };
-
-window.addEventListener("DOMContentLoaded", () => {
-    inicializarBanco();
-});
