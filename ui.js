@@ -2,7 +2,7 @@ import { db } from "./firebase.js";
 import { ref, onValue } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 import { criarPorquinho, salvarPorquinho, excluirPorquinho } from "./database.js";
 
-const refBanco = ref(db, "financeiro");
+const refPorquinhos = ref(db, "porquinhos");
 
 let porquinhos = {};
 let pendencias = {};
@@ -58,10 +58,10 @@ export function atualizarCaixa() {
 }
 
 export function mostrarPorquinhos(dados) {
-    porquinhos = dados;
+    porquinhos = dados || {};
     listaPorquinhos.innerHTML = "";
 
-    Object.entries(dados).forEach(([id, p]) => {
+    Object.entries(porquinhos).forEach(([id, p]) => {
         const total = Number(p.pix || 0) + Number(p.fisico || 0);
         const card = document.createElement("div");
         card.className = "porquinho";
@@ -124,7 +124,7 @@ export function mostrarPendencias(dados) {
     pendencias = dados;
     listaPendencias.innerHTML = "";
 
-    Object.entries(dados).forEach(([id, p]) => {
+    Object.entries(dados || {}).forEach(([id, p]) => {
         const item = document.createElement("div");
         item.className = "pendencia";
         item.innerHTML = `
@@ -163,9 +163,12 @@ document.getElementById("excluir").onclick = async () => {
     if (!porquinhoAtual) return;
     if (!confirm("Excluir este porquinho?")) return;
 
-    console.log(porquinhoAtual);
     await excluirPorquinho(porquinhoAtual);
     abrirPagina("porquinhos");
 };
+
+onValue(refPorquinhos, (snapshot) => {
+    mostrarPorquinhos(snapshot.val());
+});
 
 export { porquinhos, pendencias, porquinhoAtual };
