@@ -114,7 +114,7 @@ document.addEventListener("change", async (e) => {
         await set(ref(db, `financeiro/carnes/${aluno}`), novoEstado);
         atualizarTotal();
     } catch (err) {
-        console.error(err);
+        console.error(`FALHA NO FIREBASE (${aluno}):`, err);
     }
 });
 
