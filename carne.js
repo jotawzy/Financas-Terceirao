@@ -37,10 +37,15 @@ const lista = document.getElementById("lista-carne");
 const total = document.getElementById("total-carne");
 
 let pagamentos = {};
+let primeiraRenderizacao = true;
 
 onValue(refCarnes, (snapshot) => {
     pagamentos = snapshot.val() || {};
-    renderizarLista();
+    if (primeiraRenderizacao) {
+        construirDOM();
+        primeiraRenderizacao = false;
+    }
+    sincronizarDOM();
     atualizarTotal();
 });
 
@@ -51,13 +56,14 @@ function dinheiro(valor){
     });
 }
 
-function renderizarLista(){
-    lista.innerHTML="";
-    alunos.forEach(aluno=>{
+function construirDOM() {
+    lista.innerHTML = "";
+    const fragmento = document.createDocumentFragment();
+
+    alunos.forEach(aluno => {
         const id = aluno.nome.normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/\s+/g,"_").toLowerCase();
-        const dados = pagamentos[id] || {};
         const card = document.createElement("div");
-        card.className="porquinho";
+        card.className = "porquinho";
 
         let html = `
             <div class="section-title">
@@ -65,27 +71,50 @@ function renderizarLista(){
                     <h3>${aluno.nome}</h3>
                     <div class="descricao">${dinheiro(aluno.valor)} por parcela</div>
                 </div>
-                <div class="valor">
-                    ${dinheiro(aluno.valor * meses.filter(m => Boolean(dados[m])).length)}
+                <div class="valor" id="valor-${id}">
+                    R$ 0,00
                 </div>
             </div>
             <div class="meses">
         `;
 
-        meses.forEach(mes=>{
+        meses.forEach(mes => {
             html += `
                 <label class="mes-checkbox">
                     <span>${mes.substring(0,3).toUpperCase()}</span>
-                    <input type="checkbox" class="check-carne" data-aluno="${id}" data-mes="${mes}" ${Boolean(dados[mes]) ? "checked" : ""}>
+                    <input type="checkbox" class="check-carne" id="check-${id}-${mes}" data-aluno="${id}" data-mes="${mes}">
                 </label>
             `;
         });
 
         html += `</div>`;
         card.innerHTML = html;
-        lista.appendChild(card);
+        fragmento.appendChild(card);
     });
-    atualizarTotal();
+
+    lista.appendChild(fragmento);
+}
+
+function sincronizarDOM() {
+    alunos.forEach(aluno => {
+        const id = aluno.nome.normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/\s+/g,"_").toLowerCase();
+        const dados = pagamentos[id] || {};
+        let parcelasPagas = 0;
+
+        meses.forEach(mes => {
+            const checkbox = document.getElementById(`check-${id}-${mes}`);
+            if (checkbox) {
+                const isPago = Boolean(dados[mes]);
+                checkbox.checked = isPago;
+                if (isPago) parcelasPagas++;
+            }
+        });
+
+        const elementoValor = document.getElementById(`valor-${id}`);
+        if (elementoValor) {
+            elementoValor.textContent = dinheiro(aluno.valor * parcelasPagas);
+        }
+    });
 }
 
 document.addEventListener("change", async (e) => {
@@ -112,9 +141,8 @@ document.addEventListener("change", async (e) => {
 
     try {
         await set(ref(db, `financeiro/carnes/${aluno}`), novoEstado);
-        atualizarTotal();
     } catch (err) {
-        console.error(`FALHA NO FIREBASE (${aluno}):`, err);
+        console.error(err);
     }
 });
 
