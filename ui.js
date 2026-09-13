@@ -12,9 +12,7 @@ let pendencias = {};
 
 let porquinhoAtual = null;
 
-// ================================
 // ELEMENTOS
-// ================================
 
 const paginas = document.querySelectorAll(".page");
 
@@ -56,79 +54,50 @@ document.getElementById("observacoes");
 const statusSalvar =
 document.getElementById("status");
 
-// ================================
 // NAVEGAÇÃO
-// ================================
 
 export function abrirPagina(id){
-
     paginas.forEach(p=>{
-
         p.classList.remove("active");
-
     });
-
     document
     .getElementById(id)
     .classList
     .add("active");
-
 }
 
 botoesMenu.forEach(botao=>{
-
     botao.onclick=()=>{
-
         botoesMenu.forEach(b=>{
-
             b.classList.remove("active");
-
         });
-
         botao.classList.add("active");
-
         abrirPagina(
             botao.dataset.page
         );
-
     };
-
 });
 
-// ================================
 // FORMATAR DINHEIRO
 
 export function dinheiro(valor){
-
     return Number(valor || 0)
     .toLocaleString("pt-BR",{
-
         style:"currency",
-
         currency:"BRL"
-
     });
-
 }
 
-// ================================
 // ATUALIZA TOTAIS
-// ================================
 
 export function atualizarCaixa(){
-
     let pix=0;
-
     let fisico=0;
 
     Object.values(porquinhos).forEach(p=>{
-
         pix+=Number(p.pix||0);
-
         fisico+=Number(p.fisico||0);
-
     });
-
     totalPix.textContent=
     dinheiro(pix);
 
@@ -137,21 +106,14 @@ export function atualizarCaixa(){
 
     totalGeral.textContent=
     dinheiro(pix+fisico);
-
 }
 
-// ================================
 // RENDERIZA PORQUINHOS
-// ================================
 
 export function mostrarPorquinhos(dados){
-
     porquinhos=dados;
-
     listaPorquinhos.innerHTML="";
-
     Object.entries(dados).forEach(([id,p])=>{
-
         const total=
         Number(p.pix||0)+
         Number(p.fisico||0);
@@ -203,14 +165,7 @@ export function mostrarPorquinhos(dados){
 
 }
 
-// ================================
-// ui.js
-// Parte 2/3
-// ================================
-
-// ================================
 // ABRIR DETALHES
-// ================================
 
 export function abrirDetalhes(id){
 
@@ -236,38 +191,24 @@ export function abrirDetalhes(id){
 
 }
 
-// ================================
 // LIMPAR FORMULÁRIO
-// ================================
 
 export function limparFormulario(){
 
     porquinhoAtual = null;
-
     titulo.textContent = "Novo Porquinho";
-
     campoNome.value = "";
-
     campoDescricao.value = "";
-
     campoPix.value = 0;
-
     campoFisico.value = 0;
-
     campoObservacoes.value = "";
-
     statusSalvar.textContent = "";
-
 }
 
-// ================================
 // ALTERAÇÕES NÃO SALVAS
-// ================================
 
 function marcarAlterado(){
-
     statusSalvar.textContent = "Alterações não salvas";
-
 }
 
 [
