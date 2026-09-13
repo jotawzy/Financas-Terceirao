@@ -548,33 +548,44 @@ h2{
 
 }
 
+/* ⚡ 1. ACELERAÇÃO DE HARDWARE E SCROLL SUAVE */
 html, body {
     scroll-behavior: smooth;
     -webkit-overflow-scrolling: touch;
+    text-rendering: optimizeSpeed;
 }
 
-/* 1. RENDERIZAÇÃO SOB DEMANDA (Evita processar o que está fora da tela) */
+/* ⚡ 2. RENDERIZAÇÃO SOB PROCURA (Ignora elementos fora do ecrã) */
 .porquinho, 
 .card, 
 .section-title, 
-.mes-checkbox,
-.item-lista {
+.anotacao-item,
+.mes-checkbox {
     content-visibility: auto;
-    contain-intrinsic-size: 0 90px;
+    contain-intrinsic-size: 0 100px;
     contain: layout style paint;
 }
 
-/* 2. EVITA RECALCULAR TODAS AS PROPRIEDADES (Troca transition: all) */
-* {
-    /* Desativa transições globais lentas que travam o scroll */
-    transition: transform 0.15s ease, opacity 0.15s ease;
-}
-
-/* 3. DESATIVE EFEITOS PESADOS DE GPU NAS LISTAS */
-/* Se você usava backdrop-filter (blur) ou sombras pesadas nos cards, substitua por bordas leves */
-.porquinho, .card {
+/* ⚡ 3. REMOÇÃO DE BACKDROP-FILTER NAS LISTAS (Elimina a travagem no scroll) */
+.porquinho, .card, .anotacao-card {
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08) !important;
+    background: #1e1e1e !important; /* Cor sólida ou fundo escuro limpo */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important; /* Sombra leve */
     will-change: auto;
+}
+
+/* ⚡ 4. DESATIVAR TRANSIÇÕES GLOBAIS PESADAS */
+* {
+    transition: none !important; /* Evita que o browser tente animar layout no scroll */
+}
+
+button, input[type="checkbox"], a {
+    transition: transform 0.1s ease, opacity 0.1s ease !important;
+}
+
+/* ⚡ 5. OPTIMIZAÇÃO DOS CHECKBOXES */
+.check-carne {
+    cursor: pointer;
+    accent-color: #a82035;
 }

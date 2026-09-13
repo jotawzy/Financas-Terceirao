@@ -39,6 +39,12 @@ const total = document.getElementById("total-carne");
 let pagamentos = {};
 let primeiraRenderizacao = true;
 
+// ⚡ CACHE DOS ELEMENTOS DO DOM (Evita procuras repetidas no navegador)
+const domCache = {
+    valores: {},
+    checkboxes: {}
+};
+
 onValue(refCarnes, (snapshot) => {
     pagamentos = snapshot.val() || {};
     if (primeiraRenderizacao) {
@@ -93,6 +99,16 @@ function construirDOM() {
     });
 
     lista.appendChild(fragmento);
+
+    // ⚡ GUARDA REFERÊNCIAS EM MEMÓRIA
+    alunos.forEach(aluno => {
+        const id = aluno.nome.normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/\s+/g,"_").toLowerCase();
+        domCache.valores[id] = document.getElementById(`valor-${id}`);
+        domCache.checkboxes[id] = {};
+        meses.forEach(mes => {
+            domCache.checkboxes[id][mes] = document.getElementById(`check-${id}-${mes}`);
+        });
+    });
 }
 
 function sincronizarDOM() {
@@ -102,15 +118,17 @@ function sincronizarDOM() {
         let parcelasPagas = 0;
 
         meses.forEach(mes => {
-            const checkbox = document.getElementById(`check-${id}-${mes}`);
+            const checkbox = domCache.checkboxes[id]?.[mes];
             if (checkbox) {
                 const isPago = Boolean(dados[mes]);
-                checkbox.checked = isPago;
+                if (checkbox.checked !== isPago) {
+                    checkbox.checked = isPago;
+                }
                 if (isPago) parcelasPagas++;
             }
         });
 
-        const elementoValor = document.getElementById(`valor-${id}`);
+        const elementoValor = domCache.valores[id];
         if (elementoValor) {
             elementoValor.textContent = dinheiro(aluno.valor * parcelasPagas);
         }
@@ -138,11 +156,15 @@ document.addEventListener("change", async (e) => {
     };
 
     pagamentos[aluno] = novoEstado;
+    
+    // Atualiza logo a interface localmente antes de esperar pela rede
+    sincronizarDOM();
+    atualizarTotal();
 
     try {
         await set(ref(db, `financeiro/carnes/${aluno}`), novoEstado);
     } catch (err) {
-        console.error(err);
+        console.error("Erro ao guardar:", err);
     }
 });
 
@@ -161,46 +183,3 @@ function atualizarTotal() {
 document.getElementById("voltar-caixa").onclick = () => {
     window.location.href = "index.html";
 };
-
-let carregado = false;
-
-// O ouvinte do Firebase apenas atualiza valores na memória
-onValue(refBanco, (snapshot) => {
-    dadosLocais = snapshot.val() || {};
-    
-    if (!carregado) {
-        montarEstruturaEstatica(); // Roda só 1 vez na primeira carga
-        carregado = true;
-    }
-    
-    atualizarValoresNaTela(); // Atualiza só os dados alterados sem apagar HTML
-});
-
-function montarEstruturaEstatica() {
-    lista.innerHTML = "";
-    const fragmento = document.createDocumentFragment();
-
-    itens.forEach(item => {
-        const card = document.createElement("div");
-        card.className = "porquinho";
-        
-        // Estrutura fixa do HTML com IDs únicos para cada campo que muda
-        card.innerHTML = `
-            <h3>${item.nome}</h3>
-            <span id="valor-${item.id}">R$ 0,00</span>
-        `;
-        
-        fragmento.appendChild(card);
-    });
-
-    lista.appendChild(fragmento);
-}
-
-function atualizarValoresNaTela() {
-    itens.forEach(item => {
-        const elValor = document.getElementById(`valor-${item.id}`);
-        if (elValor) {
-            elValor.textContent = calcularNovoValor(item.id);
-        }
-    });
-}
