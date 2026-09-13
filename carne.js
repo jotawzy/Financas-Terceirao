@@ -35,6 +35,9 @@ const alunos = [
 const meses = ["julho", "agosto", "setembro", "outubro", "novembro"];
 const lista = document.getElementById("lista-carne");
 const totalEl = document.getElementById("total-carne");
+const totalFaltaEl = document.getElementById("total-falta");
+
+const valorTotalEsperado = alunos.reduce((acc, aluno) => acc + (aluno.valor * meses.length), 0);
 
 let pagamentos = {};
 let primeiraRenderizacao = true;
@@ -132,8 +135,8 @@ function sincronizarDOM() {
 }
 
 function atualizarTotal() {
-    if (!totalEl) return;
     let arrecadado = 0;
+
     alunos.forEach(aluno => {
         const id = getIdAluno(aluno.nome);
         const dados = pagamentos[id] || {};
@@ -141,7 +144,11 @@ function atualizarTotal() {
             if (dados[mes]) arrecadado += aluno.valor;
         });
     });
-    totalEl.textContent = dinheiro(arrecadado);
+
+    const falta = Math.max(0, valorTotalEsperado - arrecadado);
+
+    if (totalEl) totalEl.textContent = dinheiro(arrecadado);
+    if (totalFaltaEl) totalFaltaEl.textContent = dinheiro(falta);
 }
 
 onValue(refCarnes, (snapshot) => {
