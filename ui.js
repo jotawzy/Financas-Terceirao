@@ -1,7 +1,4 @@
-// ================================
-// ui.js
-// Parte 1/3
-// ================================
+import { ref, onValue } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 import {
 
     criarPorquinho,
