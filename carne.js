@@ -1,27 +1,12 @@
-// ================================
-// carne.js
-// Parte 1/3
-// ================================
-
 import { db } from "./firebase.js";
-
 import {
-
     ref,
     set,
     onValue
+} 
 
-} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-database.js";
-
-// ================================
-// REFERÊNCIA FIREBASE
-// ================================
-
+from "https://www.gstatic.com/firebasejs/12.16.0/firebase-database.js";
 const refCarnes = ref(db, "financeiro/carnes");
-
-// ================================
-// ALUNOS
-// ================================
 
 const alunos = [
 
@@ -55,10 +40,6 @@ const alunos = [
     )
 );
 
-// ================================
-// MESES
-// ================================
-
 const meses = [
 
     "julho",
@@ -69,129 +50,75 @@ const meses = [
 
 ];
 
-// ================================
-// ELEMENTOS
-// ================================
-
 const lista =
 document.getElementById("lista-carne");
 
 const total =
 document.getElementById("total-carne");
 
-// ================================
-// DADOS
-// ================================
-
 let pagamentos = {};
-
-// ================================
-// ESCUTAR FIREBASE
-// ================================
 
 onValue(refCarnes,(snapshot)=>{
 
     pagamentos =
     snapshot.val() || {};
-
     renderizarLista();
 
 });
-
-// ================================
-// FORMATAR MOEDA
-// ================================
 
 function dinheiro(valor){
 
     return Number(valor || 0)
     .toLocaleString("pt-BR",{
-
         style:"currency",
-
         currency:"BRL"
-
     });
-
 }
 
-// ================================
-// RENDERIZAR
-// ================================
-
 function renderizarLista(){
-
     lista.innerHTML="";
-
     alunos.forEach(aluno=>{
-
         const id =
         aluno.nome
         .normalize("NFD")
         .replace(/[\u0300-\u036f]/g,"")
         .replace(/\s+/g,"_")
         .toLowerCase();
-
         const dados =
         pagamentos[id] || {};
-
         const card =
         document.createElement("div");
-
         card.className="porquinho";
-
         let html = `
-
             <div class="section-title">
-
                 <div>
-
                     <h3>
-
                         ${aluno.nome}
-
                     </h3>
-
                     <div class="descricao">
-
                         ${dinheiro(aluno.valor)}
                         por parcela
-
                     </div>
-
                 </div>
-
                 <div
                 class="valor">
-
                     ${dinheiro(
                         aluno.valor *
                         meses.filter(
                             m=>dados[m]
                         ).length
                     )}
-
                 </div>
-
             </div>
-
             <div class="meses">
-
         `;
-
         meses.forEach(mes=>{
-
             html += `
-
                 <label
                 class="mes-checkbox">
-
                     <span>
-
                         ${mes.substring(0,3).toUpperCase()}
-
                     </span>
-
                     <input
                         type="checkbox"
                         class="check-carne"
@@ -202,100 +129,52 @@ function renderizarLista(){
                             ? "checked"
                             : ""
                         }>
-
                 </label>
-
             `;
-
         });
-
         html += `
-
             </div>
-
         `;
-
         card.innerHTML = html;
-
 lista.appendChild(card);
-
 });
-
 atualizarTotal();
-
 }
 
 
-// ================================
-// EVENTOS DAS CHECKBOXES
-// ================================
-
 document.addEventListener("change", async (e) => {
-
     if (!e.target.classList.contains("check-carne"))
         return;
-
     const aluno = e.target.dataset.aluno;
     const mes = e.target.dataset.mes;
-
     const atual = pagamentos[aluno] || {};
-
     atual[mes] = e.target.checked;
-
     await set(
-
         ref(db, `financeiro/carnes/${aluno}`),
-
         atual
-
     );
-
 });
 
-// ================================
-// TOTAL ARRECADADO
-// ================================
-
 function atualizarTotal() {
-
     let arrecadado = 0;
-
     alunos.forEach(aluno => {
-
         const id = aluno.nome
             .normalize("NFD")
             .replace(/[\u0300-\u036f]/g, "")
             .replace(/\s+/g, "_")
             .toLowerCase();
-
         const dados = pagamentos[id] || {};
-
         meses.forEach(mes => {
-
             if (dados[mes]) {
-
                 arrecadado += aluno.valor;
-
             }
-
         });
-
     });
-
     total.textContent = dinheiro(arrecadado);
-
 }
 
-// ================================
-// PRIMEIRA EXECUÇÃO
-// ================================
-
 async function inicializarBanco() {
-
-    let alterou = false;
-
     for (const aluno of alunos) {
-
         const id = aluno.nome
             .normalize("NFD")
             .replace(/[\u0300-\u036f]/g, "")
@@ -303,57 +182,26 @@ async function inicializarBanco() {
             .toLowerCase();
 
         if (!pagamentos[id]) {
-
-            alterou = true;
-
-            pagamentos[id] = {
-
+            const estruturaInicial = {
                 julho: false,
                 agosto: false,
                 setembro: false,
                 outubro: false,
                 novembro: false
-
             };
-
-            await set(
-
-                ref(db, `financeiro/carnes/${id}`),
-
-                pagamentos[id]
-
-            );
-
+            pagamentos[id] = estruturaInicial;
+            await set(ref(db, `financeiro/carnes/${id}`), estruturaInicial);
         }
-
     }
-
-    if (alterou) {
-
-        atualizarTotal();
-
-    }
-
+    atualizarTotal();
 }
-
-// ================================
-// BOTÃO VOLTAR
-// ================================
 
 document
 .getElementById("voltar-caixa")
 .onclick = () => {
-
     window.location.href = "index.html";
-
 };
 
-// ================================
-// INICIAR
-// ================================
-
 window.addEventListener("DOMContentLoaded", () => {
-
     inicializarBanco();
-
 });
